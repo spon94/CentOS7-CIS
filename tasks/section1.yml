@@ -512,6 +512,7 @@
   stat:
     path: /etc/grub2.cfg
   register: grub_cfg
+  ignore_errors: true
   tags:
     - level1
     - low
@@ -526,6 +527,7 @@
     owner: root
     group: root
     mode: 0600
+  ignore_errors: true
   when:
     - centos7cis_level1 is defined and centos7cis_level1
     - grub_cfg is defined and grub_cfg.stat.exists and grub_cfg.stat.islnk
@@ -540,6 +542,7 @@
   grub_crypt:
     password: "{{ centos7cis_bootloader_password }}"
   register: grub_pass
+  ignore_errors: true
   when:
     - centos7cis_level1 is defined and centos7cis_level1
     - centos7cis_set_boot_pass is defined and centos7cis_set_boot_pass
@@ -554,6 +557,7 @@
   copy:
     dest: /boot/grub2/user.cfg
     content: "GRUB2_PASSWORD={{ grub_pass.passhash }}"
+  ignore_errors: true
   when:
     - centos7cis_level1 is defined and centos7cis_level1
     - centos7cis_set_boot_pass is defined and centos7cis_set_boot_pass and grub_pass is defined and grub_pass.passhash is defined and grub_pass.passhash != ''
