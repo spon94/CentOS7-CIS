@@ -357,6 +357,22 @@
     - patch
     - rule_1.1.22
 
+
+- name: "SCORED | 1.23 | PATCH | Ensure usb storage is disabled"
+  lineinfile:
+    dest: /etc/modprobe.d/CIS.conf
+    regexp: "^(#)?install usb-storage(\\s|$)"
+    line: "install usb-storage /bin/true"
+    create: yes
+  when:
+    - centos7cis_level1 is defined and centos7cis_level1
+  tags:
+    - level1
+    - scored
+    - patch
+    - rule_1.23
+    - usb-storage
+
 - name: "NOTSCORED | 1.2.1 | PATCH | Ensure package manager repositories are configured"
   command: /bin/true
   changed_when: no
